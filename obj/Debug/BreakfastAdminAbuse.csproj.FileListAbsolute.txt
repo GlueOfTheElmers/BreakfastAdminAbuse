@@ -22,7 +22,6 @@ C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\Bre
 C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\BreakfastAdminAbuse\bin\Release\Rocket.Unturned.dll
 C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\BreakfastAdminAbuse\bin\Release\UnityEngine.dll
 C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\BreakfastAdminAbuse\bin\Release\Unturned.dll
-C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\BreakfastAdminAbuse\bin\Release\UnityEngine.UI.dll
 C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\BreakfastAdminAbuse\obj\Debug\BreakfastAdminAbuse.csprojResolveAssemblyReference.cache
 C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\BreakfastAdminAbuse\obj\Debug\Breakfast Admin Abuse.dll
 C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\BreakfastAdminAbuse\obj\Debug\Breakfast Admin Abuse.pdb
