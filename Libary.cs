@@ -20,6 +20,7 @@ namespace DefCon42
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AutomaticDecompression = DecompressionMethods.GZip;
+            request.Accept = "text/html";
 
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             using (Stream stream = response.GetResponseStream())
@@ -30,7 +31,7 @@ namespace DefCon42
         }
         public static string SteamHTMLRequest(string input)
         {
-            string url = @"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + Init.Instance.Configuration.Instance.steamapikey + "&steamids=" + input;
+            string url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + Init.Instance.Configuration.Instance.steamapikey + "&steamids=" + input;
             string html = Library.HTMLRequest(url);
             string data = Library.getBetween(html, "\"personaname\":", ",");
             data = data.Replace("\"", "");

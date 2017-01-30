@@ -1,0 +1,5 @@
+C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\BreakfastAdminAbuse\bin\Release\Breakfast Admin Abuse.dll
+C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\BreakfastAdminAbuse\bin\Release\Breakfast Admin Abuse.pdb
+C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\BreakfastAdminAbuse\obj\Release\Breakfast Admin Abuse.dll
+C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\BreakfastAdminAbuse\obj\Release\Breakfast Admin Abuse.pdb
+C:\Users\Karl Rehm\Documents\Visual Studio 2015\Projects\Breakfast Utilities\BreakfastAdminAbuse\obj\Release\BreakfastAdminAbuse.csprojResolveAssemblyReference.cache

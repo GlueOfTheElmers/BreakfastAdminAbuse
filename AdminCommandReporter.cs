@@ -32,6 +32,14 @@ namespace DefCon42
                         UnturnedChat.Say(player.CharacterName + " disabled godmode!");
                     }
                 }
+                if (message.StartsWith("/airdrop"))
+                {
+                    UnturnedChat.Say(player.DisplayName + " spawned in an airdrop!");
+                }
+                if (message.StartsWith("/massdrop") || message.StartsWith("mdrop") || message.StartsWith("massairdrop") || message.StartsWith("airdropmass") || message.StartsWith("dropmass") || message.StartsWith("mairdrop"))
+                {
+                    UnturnedChat.Say(player.DisplayName + " spawned in a mass airdrop!");
+                }
                 else if (message.StartsWith("/tp "))
                 {
                     UnturnedPlayer target = UnturnedPlayer.FromName(message.Substring(3).Replace(" ", ""));
@@ -46,6 +54,49 @@ namespace DefCon42
                             if(n.type == ENodeType.LOCATION)
                             {
                                 if(((LocationNode)n).name.ToLower().Contains(message.Substring(4).Replace(" ", "").Replace("\"", "")))
+                                {
+                                    UnturnedChat.Say(player.CharacterName + " tp'd to " + ((LocationNode)n).name + "!");
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (message.StartsWith("/teleport "))
+                {
+                    UnturnedPlayer target = UnturnedPlayer.FromName(message.Substring(9).Replace(" ", ""));
+                    if (target != null && (player != target))
+                    {
+                        UnturnedChat.Say(player.CharacterName + " tp'd to " + target.CharacterName + "!");
+                    }
+                    else if (player == target)
+                    {
+                        string[] splitstring = message.Substring(2).Split(' ');
+
+                        if (splitstring.Length > 2)
+                        {
+                            foreach (Node n in LevelNodes.nodes)
+                            {
+                                if (n.type == ENodeType.LOCATION)
+                                {
+                                    if (((LocationNode)n).name.ToLower().Contains(splitstring[2].Replace(" ", "").Replace("\"", "")))
+                                    {
+                                        UnturnedChat.Say(player.CharacterName + " tp'd to " + ((LocationNode)n).name + "!");
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            UnturnedChat.Say(player.CharacterName + "tried to TP to himself..");
+                        }
+                    }
+                    else
+                    {
+                        foreach (Node n in LevelNodes.nodes)
+                        {
+                            if (n.type == ENodeType.LOCATION)
+                            {
+                                if (((LocationNode)n).name.ToLower().Contains(message.Substring(9).Replace(" ", "").Replace("\"", "")))
                                 {
                                     UnturnedChat.Say(player.CharacterName + " tp'd to " + ((LocationNode)n).name + "!");
                                 }
@@ -130,7 +181,7 @@ namespace DefCon42
                     }
                     if (vehiclename != null)
                     {
-                        UnturnedChat.Say(player.CharacterName + " used /v to try and spawn in a " + vehiclename + "!");
+                        UnturnedChat.Say(player.CharacterName + " used /v to spawn in a " + vehiclename + "!");
                         cancel = true;
                     }
                     else
@@ -158,11 +209,11 @@ namespace DefCon42
 
                     if (kicktarget != null)
                     {
-                        UnturnedChat.Say(player + " kicked " + kicktarget.CharacterName + "!");
+                        UnturnedChat.Say(player.CharacterName + " kicked " + kicktarget.CharacterName + "!");
                     }
                     else if (data != "")
                     {
-                        UnturnedChat.Say(player + " kicked " + data + "!");
+                        UnturnedChat.Say(player.CharacterName + " kicked " + data + "!");
                     }
                 }
                 else if (message.StartsWith("/slay "))
@@ -172,11 +223,11 @@ namespace DefCon42
 
                     if (slaytarget != null)
                     {
-                        UnturnedChat.Say(player + " banned " + slaytarget + "!");
+                        UnturnedChat.Say(player.CharacterName + " banned " + slaytarget + "!");
                     }
                     else if (data != "")
                     {
-                        UnturnedChat.Say(player + " banned " + data + "!");
+                        UnturnedChat.Say(player.CharacterName + " banned " + data + "!");
                     }
                 }
                 else if (message.StartsWith("/admin "))
@@ -185,7 +236,7 @@ namespace DefCon42
 
                     if (admintarget != null)
                     {
-                        UnturnedChat.Say(player + " tried to admin " + admintarget + "!");
+                        UnturnedChat.Say(player.CharacterName + " tried to admin " + admintarget + "!");
                         cancel = true;
                     }
                 }
