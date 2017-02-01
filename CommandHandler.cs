@@ -27,10 +27,11 @@ namespace DefCon42
         UnturnedPlayer kicktarget = null;
         UnturnedPlayer slaytarget = null;
         UnturnedPlayer admintarget = null;
+        UnturnedPlayer healtarget = null;
 
         public void Message(string Translation, string arg)
         {
-            Color mcolor = Init.Instance.Configuration.Instance.messagecolor;
+            Color mcolor = ColorExtensions.ParseColor(Init.Instance.Configuration.Instance.messagecolor);
             string[] args = arg.Split(',');
             UnturnedChat.Say(Init.Instance.Translations.Instance.Translate(Translation, args), mcolor);
         }
@@ -63,22 +64,28 @@ namespace DefCon42
                     target = UnturnedPlayer.FromName(splitstring[1]);
                     if (splitstring.Length > 1)
                     {
-                        if (target != null && (player != target))
+                        if (target != null)
                         {
-                            Message("tp_message", player.CharacterName + "," + target.CharacterName);
-                        }
-                        else if (player.Player == target.Player)
-                        {
-                            Message("tp_message_self", player.CharacterName);
-                        }
-                        foreach (Node n in LevelNodes.nodes)
-                        {
-                            if (n.type == ENodeType.LOCATION)
+                            if (player.CSteamID != target.CSteamID)
                             {
-                                if (((LocationNode)n).name.ToLower().Contains(splitstring[1].Replace(" ", "").Replace("\"", "")))
+                                Message("tp_message", player.CharacterName + "," + target.CharacterName);
+                            }
+                            else if (player.CSteamID == target.CSteamID)
+                            {
+                                Message("tp_message_self", player.CharacterName);
+                            }
+                        }
+                        else
+                        {
+                            foreach (Node n in LevelNodes.nodes)
+                            {
+                                if (n.type == ENodeType.LOCATION)
                                 {
-                                    Message("tp_message", (player.CharacterName + "," + ((LocationNode)n).name));
-                                    break;
+                                    if (((LocationNode)n).name.ToLower().Contains(splitstring[1].Replace(" ", "").Replace("\"", "")))
+                                    {
+                                        Message("tp_message", (player.CharacterName + "," + ((LocationNode)n).name));
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -86,18 +93,20 @@ namespace DefCon42
                 }
                 else if (message.StartsWith("/teleport"))
                 {
-                    Rocket.Core.Logging.Logger.Log("test");
                     string[] splitstring = message.Split(' ');
                     target = UnturnedPlayer.FromName(splitstring[1]);
-                    if (target != null && (player != target))
+                    if (target != null)
                     {
-                        Message("teleport_message", player.CharacterName + "," + target.CharacterName);
+                        if (player.CSteamID != target.CSteamID)
+                        {
+                            Message("teleport_message", player.CharacterName + "," + target.CharacterName);
+                        }
+                        else if (player.CSteamID == target.CSteamID)
+                        {
+                            Message("tp_message_self", player.CharacterName);
+                        }
                     }
-                    else if (player.Player == target.Player)
-                    {
-                        Message("tp_message_self", player.CharacterName);
-                    }
-                    if (splitstring.Length > 2)
+                    else if (splitstring.Length > 2)
                     {
                         target = UnturnedPlayer.FromName(splitstring[1]);
                         UnturnedPlayer _target = UnturnedPlayer.FromName(splitstring[2]);
@@ -116,9 +125,13 @@ namespace DefCon42
                                         if (player == target)
                                         {
                                             Message("teleport_message", player.CharacterName + "," + ((LocationNode)n).name);
+                                            break;
                                         }
-                                        Message("teleport_message_player_to_location", target.CharacterName + "," + ((LocationNode)n).name + "," + player.CharacterName);
-                                        break;
+                                        else
+                                        {
+                                            Message("teleport_message_player_to_location", target.CharacterName + "," + ((LocationNode)n).name + "," + player.CharacterName);
+                                            break;
+                                        }      
                                     }
                                 }
                             }
@@ -149,10 +162,6 @@ namespace DefCon42
                     {
                         Message("vanish_message_disabled", player.CharacterName);
                     }
-                }
-                else if (message.StartsWith("/heal"))
-                {
-                    Message("heal_message", player.CharacterName);
                 }
                 else if (message.StartsWith("/i "))
                 {
@@ -254,6 +263,21 @@ namespace DefCon42
                         Message("slay_message", player.CharacterName + "," + data);
                     }
                     slaytarget = null;
+                }
+                else if (message.StartsWith("/heal"))
+                {
+                    healtarget = UnturnedPlayer.FromName(message.Substring(5).Replace(" ", ""));
+
+                    if (healtarget != null)
+                    {
+                        Message("heal_message_player", player.CharacterName + "," + healtarget.CharacterName);
+                    }
+                    else
+                    {
+                        Message("heal_message", player.CharacterName);
+                    }
+                    
+                    healtarget = null;
                 }
                 else if (message.StartsWith("/admin "))
                 {

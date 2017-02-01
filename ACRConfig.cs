@@ -13,12 +13,12 @@ namespace DefCon42
         [XmlElement("steamapikey")]
         public string steamapikey;
         [XmlElement("messagecolor")]
-        public Color messagecolor;
+        public string messagecolor;
 
         public void LoadDefaults()
         {
             steamapikey = "yoursteamapikeygoeshere";
-            messagecolor = Color.red;
+            messagecolor = "red";
         }
     }
 }

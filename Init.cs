@@ -41,6 +41,7 @@ namespace DefCon42
                     { "vanish_message_enabled", "{0} has turned on vanish!" },
                     { "vanish_message_disabled", "{0} has turned off vanish!" },
                     { "heal_message", "{0} has healed himself!" },
+                    { "heal_message_player", "{0} has healed {1}!" },
                     { "item_message", "{0} spawned in {1}!" },
                     { "item_message_amount", "{0} spawned in {1}x {2}!" },
                     { "vehicle_message", "{0} has spawned in {1}!" },
