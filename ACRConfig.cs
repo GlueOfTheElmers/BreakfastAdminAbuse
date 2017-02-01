@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using UnityEngine;
 
 namespace DefCon42
 {
@@ -11,10 +12,13 @@ namespace DefCon42
     {
         [XmlElement("steamapikey")]
         public string steamapikey;
+        [XmlElement("messagecolor")]
+        public Color messagecolor;
 
         public void LoadDefaults()
         {
             steamapikey = "yoursteamapikeygoeshere";
+            messagecolor = Color.red;
         }
     }
 }

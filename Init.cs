@@ -8,6 +8,20 @@ namespace DefCon42
 {
     public class Init : RocketPlugin<ACRConfig>
     {
+        public static Init Instance;
+        AdminCommandReporter acr = new AdminCommandReporter();
+        protected override void Load()
+        {
+            Instance = this;
+            Rocket.Core.Logging.Logger.Log("[Breakfast Utils] Anti Admin Abuse plugin loaded!");
+            OnPlayerChatted += acr.UnturnedPlayerEvents_OnPlayerChatted;
+        }
+        protected override void Unload()
+        {
+            Rocket.Core.Logging.Logger.Log("[Breakfast Utils] Anti Admin Abuse plugin unloaded!");
+            OnPlayerChatted -= acr.UnturnedPlayerEvents_OnPlayerChatted;
+
+        }
         public override TranslationList DefaultTranslations
         {
             get
@@ -21,6 +35,8 @@ namespace DefCon42
                     { "tp_message", "{0} has teleported to {1}!" },
                     { "tp_message_self", "{0} tried to teleport to himself.." },
                     { "teleport_message", "{0} has teleported to {1}!" },
+                    { "teleport_message_player_to_player", "{1} has been teleported to {2} by {3}!" },
+                    { "teleport_message_player_to_location", "{1} has teleported to {2} by {3}!" },
                     { "teleport_message_self", "{0} tried to teleport to himself.." },
                     { "vanish_message_enabled", "{0} has turned on vanish!" },
                     { "vanish_message_disabled", "{0} has turned off vanish!" },
@@ -34,21 +50,6 @@ namespace DefCon42
                     { "admin_message", "{0} has admined {1}!" }
                 };
             }
-        }
-        public static Init Instance;
-  
-        AdminCommandReporter acr = new AdminCommandReporter();
-
-        protected override void Load()
-        {
-            Instance = this;
-            Rocket.Core.Logging.Logger.Log("[Breakfast Utils] Anti Admin Abuse plugin loaded!");
-            OnPlayerChatted += acr.UnturnedPlayerEvents_OnPlayerChatted;
-        }
-        protected override void Unload()
-        {
-            Rocket.Core.Logging.Logger.Log("[Breakfast Utils] Anti Admin Abuse plugin unloaded!");
-            OnPlayerChatted -= acr.UnturnedPlayerEvents_OnPlayerChatted;
         }
     }
 }
