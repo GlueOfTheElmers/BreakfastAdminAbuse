@@ -95,6 +95,12 @@ namespace DefCon42
                 {
                     string[] splitstring = message.Split(' ');
                     target = UnturnedPlayer.FromName(splitstring[1]);
+                    if (splitstring[1].Contains('/'))
+                    {
+                        splitstring[3] = splitstring[2];
+                        splitstring[2] = splitstring[1].Split('/')[1];
+                        splitstring[1] = splitstring[1].Split('/')[0];
+                    }
                     if (target != null)
                     {
                         if (player.CSteamID != target.CSteamID)

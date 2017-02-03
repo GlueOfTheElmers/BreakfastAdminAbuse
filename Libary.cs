@@ -37,7 +37,6 @@ namespace DefCon42
             data = data.Replace("\"", "");
             return data;
         }
-
         public static void UnturnedHTMLRequest(UnturnedPlayer player, string url, string desc)
         {
             player.Player.channel.send("askBrowserRequest", player.CSteamID, SDG.Unturned.ESteamPacket.UPDATE_RELIABLE_BUFFER, desc, url);
