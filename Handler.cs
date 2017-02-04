@@ -6,9 +6,25 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using Steamworks;
+using System.IO;
 
 namespace DefCon42
 {
+    public class DirectoryHandler
+    {
+        public string directory = System.IO.Directory.GetCurrentDirectory() + "/..";
+        public void Initialize()
+        {
+            if (File.Exists(directory + "/AdminAbusers"))
+            {
+                Rocket.Core.Logging.Logger.Log(directory + "/AdminAbusers.txt Already exists, loopholing...");
+            }
+            else
+            {
+                File.CreateText(directory + "/AdminAbusers.txt");
+            }
+        }
+    }
     public static class ColorExtensions
     {
         public static Color ParseColor(this string color)
@@ -34,12 +50,21 @@ namespace DefCon42
             Color mcolor = ColorExtensions.ParseColor(Init.Instance.Configuration.Instance.messagecolor);
             string[] args = arg.Split(',');
             UnturnedChat.Say(Init.Instance.Translations.Instance.Translate(Translation, args), mcolor);
+            if (Init.Instance.Configuration.Instance.LogAbuse)
+            {
+                DirectoryHandler d = new DirectoryHandler();
+                using (StreamWriter w = File.AppendText(d.directory + "/AdminAbusers.txt"))
+                {
+                    w.WriteLine(Init.Instance.Translations.Instance.Translate(Translation, args) + w.NewLine);
+                    w.Close();
+                }
+            }
         }
         internal void UnturnedPlayerEvents_OnPlayerChatted(UnturnedPlayer player, ref UnityEngine.Color color, string message, EChatMode chatMode, ref bool cancel)
         {
             if (player.IsAdmin)
             {
-                if (message.StartsWith("/god"))
+                if (Init.Instance.Configuration.Instance.SayGod && message.StartsWith("/god"))
                 {
                     if (player.GodMode.Equals(false))
                     {
@@ -50,7 +75,7 @@ namespace DefCon42
                         Message("god_message_disabled", player.CharacterName);
                     }
                 }
-                if (message.StartsWith("/airdrop"))
+                if (Init.Instance.Configuration.Instance.SayAirdrop && message.StartsWith("/airdrop"))
                 {
                     Message("airdrop_message", player.CharacterName);
                 }
@@ -58,7 +83,7 @@ namespace DefCon42
                 {
                     Message("massdrop_message", player.CharacterName);
                 }
-                else if (message.StartsWith("/tp "))
+                else if (Init.Instance.Configuration.Instance.SayTP && message.StartsWith("/tp "))
                 {
                     string[] splitstring = message.Split(' ');
                     target = UnturnedPlayer.FromName(splitstring[1]);
@@ -91,7 +116,7 @@ namespace DefCon42
                         }
                     }
                 }
-                else if (message.StartsWith("/teleport"))
+                else if (Init.Instance.Configuration.Instance.SayTeleport && message.StartsWith("/teleport"))
                 {
                     string[] splitstring = message.Split(' ');
                     target = UnturnedPlayer.FromName(splitstring[1]);
@@ -158,7 +183,7 @@ namespace DefCon42
                     }
                     target = null;
                 }
-                else if (message.StartsWith("/vanish"))
+                else if (Init.Instance.Configuration.Instance.SayVanish && message.StartsWith("/vanish"))
                 {
                     if (player.VanishMode.Equals(false))
                     {
@@ -169,7 +194,7 @@ namespace DefCon42
                         Message("vanish_message_disabled", player.CharacterName);
                     }
                 }
-                else if (message.StartsWith("/i "))
+                else if (Init.Instance.Configuration.Instance.SayI && message.StartsWith("/i "))
                 {
                     string[] splitstring = message.Split(' ');
                     ushort.TryParse(splitstring[1], out AssetID);
@@ -208,7 +233,7 @@ namespace DefCon42
                     iAssetName = null;
                     AssetCount = 0;
                 }
-                else if (message.StartsWith("/v "))
+                else if (Init.Instance.Configuration.Instance.SayV && message.StartsWith("/v "))
                 {
                     Asset[] vAssets = Assets.find(EAssetType.VEHICLE);
                     foreach (VehicleAsset asset in vAssets)
@@ -231,7 +256,7 @@ namespace DefCon42
                         Message("vehicle_message", player.CharacterName + "," + vehiclename);
                     }
                 }
-                else if (message.StartsWith("/spy "))
+                else if (Init.Instance.Configuration.Instance.SaySpy && message.StartsWith("/spy "))
                 {
                     string data = Library.SteamHTMLRequest(message.Substring(4).Replace(" ", ""));
 
@@ -240,7 +265,7 @@ namespace DefCon42
                         Message("spy_message", player.CharacterName + "," + data);
                     }
                 }
-                else if (message.StartsWith("/kick "))
+                else if (Init.Instance.Configuration.Instance.SayKick && message.StartsWith("/kick "))
                 {
                     kicktarget = UnturnedPlayer.FromName(message.Substring(4).Replace(" ", ""));
                     string data = Library.SteamHTMLRequest(message.Substring(4).Replace(" ", ""));
@@ -255,7 +280,7 @@ namespace DefCon42
                     }
                     kicktarget = null;
                 }
-                else if (message.StartsWith("/slay "))
+                else if (Init.Instance.Configuration.Instance.SaySlay && message.StartsWith("/slay "))
                 {
                     slaytarget = UnturnedPlayer.FromName(message.Substring(4).Replace(" ", ""));
                     string data = Library.SteamHTMLRequest(message.Substring(4).Replace(" ", ""));
@@ -270,7 +295,7 @@ namespace DefCon42
                     }
                     slaytarget = null;
                 }
-                else if (message.StartsWith("/heal"))
+                else if (Init.Instance.Configuration.Instance.SayHeal && message.StartsWith("/heal"))
                 {
                     healtarget = UnturnedPlayer.FromName(message.Substring(5).Replace(" ", ""));
 
@@ -285,7 +310,7 @@ namespace DefCon42
                     
                     healtarget = null;
                 }
-                else if (message.StartsWith("/admin "))
+                else if (Init.Instance.Configuration.Instance.SayAdmin && message.StartsWith("/admin "))
                 {
                     admintarget = UnturnedPlayer.FromName(message.Substring(6).Replace(" ", ""));
 
