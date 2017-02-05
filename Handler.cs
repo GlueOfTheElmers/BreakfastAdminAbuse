@@ -64,7 +64,7 @@ namespace DefCon42
         }
         internal void UnturnedPlayerEvents_OnPlayerChatted(UnturnedPlayer player, ref UnityEngine.Color color, string message, EChatMode chatMode, ref bool cancel)
         {
-            if (player.IsAdmin && !R.Permissions.HasPermission((IRocketPlayer)player, "abuse.ignore"))
+            if (player.IsAdmin && !R.Permissions.HasPermission(player, "abuse.ignore"))
             {
                 if (Init.Instance.Configuration.Instance.SayGod && message.StartsWith("/god"))
                 {

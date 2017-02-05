@@ -8,45 +8,57 @@ using UnityEngine;
 
 namespace DefCon42
 {
+    [Serializable]
     public class ACRConfig : IRocketPluginConfiguration
     {
-        [XmlElement("SayGod")]
-        [XmlElement("SayVanish")]
-        [XmlElement("SayAirdrop")]
-        [XmlElement("SayMassAirdrop")]
-        [XmlElement("SayTP")]
-        [XmlElement("SayTeleport")]
-        [XmlElement("SayI")]
         [XmlElement("SayV")]
-        [XmlElement("SayKick")]
-        [XmlElement("SaySlay")]
-        [XmlElement("SayHeal")]
-        [XmlElement("SayAdmin")]
-        [XmlElement("SaySpy")]
-
-        [XmlElement("LogAbuse")]
-
-        [XmlElement("messagecolor")]
-        [XmlElement("steamapikey")]
-
         public bool SayV;
+
+        [XmlElement("SayKick")]
         public bool SayKick;
-        public bool SaySlay;       
+
+        [XmlElement("SaySlay")]
+        public bool SaySlay;
+
+        [XmlElement("SayHeal")]
         public bool SayHeal;
+
+        [XmlElement("SayGod")]
         public bool SayGod;
+
+        [XmlElement("SayVanish")]
         public bool SayVanish;
+
+        [XmlElement("SayAirdrop")]
         public bool SayAirdrop;
-        public bool SayMassAirdrop;   
-        public bool SayTP;    
-        public bool SayTeleport;     
+
+        [XmlElement("SayMassAirdrop")]
+        public bool SayMassAirdrop;
+
+        [XmlElement("SayTP")]
+        public bool SayTP;
+
+        [XmlElement("SayTeleport")]
+        public bool SayTeleport;
+
+        [XmlElement("SayI")]
         public bool SayI;
+
+        [XmlElement("SayAdmin")]
         public bool SayAdmin;
+
+        [XmlElement("SaySpy")]
         public bool SaySpy;
 
+
+        [XmlElement("LogAbuse")]
         public bool LogAbuse;
 
-        public string steamapikey;
+
+        [XmlElement("messagecolor")]
         public string messagecolor;
+        [XmlElement("steamapikey")]
+        public string steamapikey;
 
         public void LoadDefaults()
         {
