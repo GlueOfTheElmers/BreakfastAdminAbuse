@@ -47,15 +47,7 @@ namespace DefCon42
         UnturnedPlayer slaytarget = null;
         UnturnedPlayer admintarget = null;
         UnturnedPlayer healtarget = null;
-        public List<RocketPermissionsGroup> rgroups;
 
-        public void Initialize()
-        {
-            foreach (string s in Init.Instance.Configuration.Instance.groups)
-            {
-                rgroups.Add(R.Permissions.GetGroup(s));
-            }
-        }
         public void Message(string Translation, string arg)
         {
             string[] args = arg.Split(',');
@@ -77,7 +69,7 @@ namespace DefCon42
         }
         internal void UnturnedPlayerEvents_OnPlayerChatted(UnturnedPlayer player, ref UnityEngine.Color color, string message, EChatMode chatMode, ref bool cancel)
         {
-            if (player.IsAdmin || R.Permissions.GetGroups(player, false).Any(x => rgroups.Any(y => y == x)))
+            if (player.IsAdmin || player.HasPermission("abuse.active"))
             {
                 if (Init.Instance.Configuration.Instance.SayGod && message.StartsWith("/god"))
                 {

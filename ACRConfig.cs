@@ -90,11 +90,6 @@ namespace DefCon42
             LogAbuse = true;
             UseIgnorePermission = false;
 
-            groups = new List<string>()
-            {
-                "Your groups go here"
-            };
-
             IgnoreTrueAdmins = false;
 
             steamapikey = "your steam apikey goes here";
