@@ -7,6 +7,8 @@ using System;
 using UnityEngine;
 using Steamworks;
 using System.IO;
+using Rocket.Core;
+using Rocket.API;
 
 namespace DefCon42
 {
@@ -62,7 +64,7 @@ namespace DefCon42
         }
         internal void UnturnedPlayerEvents_OnPlayerChatted(UnturnedPlayer player, ref UnityEngine.Color color, string message, EChatMode chatMode, ref bool cancel)
         {
-            if (player.IsAdmin)
+            if (player.IsAdmin && !R.Permissions.HasPermission((IRocketPlayer)player, "abuse.ignore"))
             {
                 if (Init.Instance.Configuration.Instance.SayGod && message.StartsWith("/god"))
                 {
