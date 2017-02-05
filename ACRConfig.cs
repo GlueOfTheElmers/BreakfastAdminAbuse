@@ -1,4 +1,6 @@
 ﻿using Rocket.API;
+using Rocket.API.Serialisation;
+using Rocket.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +56,15 @@ namespace DefCon42
         [XmlElement("LogAbuse")]
         public bool LogAbuse;
 
+        [XmlElement("UseIgnorePermission")]
+        public bool UseIgnorePermission;
+
+        [XmlArrayItem(ElementName = "AdminGroups")]
+        public List<string> groups;
+
+        [XmlElement("IgnoreTrueAdmins")]
+        public bool IgnoreTrueAdmins;
+
 
         [XmlElement("messagecolor")]
         public string messagecolor;
@@ -77,6 +88,14 @@ namespace DefCon42
             SayAdmin = true;
 
             LogAbuse = true;
+            UseIgnorePermission = false;
+
+            groups = new List<string>()
+            {
+                "Your groups go here"
+            };
+
+            IgnoreTrueAdmins = false;
 
             steamapikey = "your steam apikey goes here";
             messagecolor = "red";

@@ -9,6 +9,7 @@ using Steamworks;
 using System.IO;
 using Rocket.Core;
 using Rocket.API;
+using Rocket.API.Serialisation;
 
 namespace DefCon42
 {
@@ -46,25 +47,37 @@ namespace DefCon42
         UnturnedPlayer slaytarget = null;
         UnturnedPlayer admintarget = null;
         UnturnedPlayer healtarget = null;
+        public List<RocketPermissionsGroup> rgroups;
 
+        public void Initialize()
+        {
+            foreach (string s in Init.Instance.Configuration.Instance.groups)
+            {
+                rgroups.Add(R.Permissions.GetGroup(s));
+            }
+        }
         public void Message(string Translation, string arg)
         {
-            Color mcolor = ColorExtensions.ParseColor(Init.Instance.Configuration.Instance.messagecolor);
             string[] args = arg.Split(',');
-            UnturnedChat.Say(Init.Instance.Translations.Instance.Translate(Translation, args), mcolor);
-            if (Init.Instance.Configuration.Instance.LogAbuse)
+            UnturnedPlayer p = UnturnedPlayer.FromName(args[0]);
+            if (!(R.Permissions.HasPermission(p, "abuse.ignore") && Init.Instance.Configuration.Instance.UseIgnorePermission))
             {
-                DirectoryHandler d = new DirectoryHandler();
-                using (StreamWriter w = File.AppendText(d.directory + "/AdminAbusers.txt"))
+                Color mcolor = ColorExtensions.ParseColor(Init.Instance.Configuration.Instance.messagecolor);
+                UnturnedChat.Say(Init.Instance.Translations.Instance.Translate(Translation, args), mcolor);
+                if (Init.Instance.Configuration.Instance.LogAbuse)
                 {
-                    w.WriteLine(Init.Instance.Translations.Instance.Translate(Translation, args) + w.NewLine);
-                    w.Close();
+                    DirectoryHandler d = new DirectoryHandler();
+                    using (StreamWriter w = File.AppendText(d.directory + "/AdminAbusers.txt"))
+                    {
+                        w.WriteLine(Init.Instance.Translations.Instance.Translate(Translation, args) + w.NewLine);
+                        w.Close();
+                    }
                 }
             }
         }
         internal void UnturnedPlayerEvents_OnPlayerChatted(UnturnedPlayer player, ref UnityEngine.Color color, string message, EChatMode chatMode, ref bool cancel)
         {
-            if (player.IsAdmin && !R.Permissions.HasPermission(player, "abuse.ignore"))
+            if (player.IsAdmin || R.Permissions.GetGroups(player, false).Any(x => rgroups.Any(y => y == x)))
             {
                 if (Init.Instance.Configuration.Instance.SayGod && message.StartsWith("/god"))
                 {
