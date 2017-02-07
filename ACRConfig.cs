@@ -59,9 +59,6 @@ namespace DefCon42
         [XmlElement("UseIgnorePermission")]
         public bool UseIgnorePermission;
 
-        [XmlArrayItem(ElementName = "AdminGroups")]
-        public List<string> groups;
-
         [XmlElement("IgnoreTrueAdmins")]
         public bool IgnoreTrueAdmins;
 
