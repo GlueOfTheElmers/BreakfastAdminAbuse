@@ -201,7 +201,7 @@ namespace DefCon42
                         Message("vanish_message_disabled", player.CharacterName);
                     }
                 }
-                else if (Init.Instance.Configuration.Instance.SayI && message.StartsWith("/i "))
+                else if (Init.Instance.Configuration.Instance.SayI && message.StartsWith("/i ") || message.StartsWith("/spawnitem "))
                 {
                     string[] splitstring = message.Split(' ');
                     ushort.TryParse(splitstring[1], out AssetID);
@@ -240,13 +240,15 @@ namespace DefCon42
                     iAssetName = null;
                     AssetCount = 0;
                 }
-                else if (Init.Instance.Configuration.Instance.SayV && message.StartsWith("/v "))
+                else if (Init.Instance.Configuration.Instance.SayV && message.StartsWith("/v ") || message.StartsWith("/spawnvehicle "))
                 {
+                    string[] splitstring = message.Split(' ');
+                    ushort.TryParse(splitstring[1], out vehicleid);
+
                     Asset[] vAssets = Assets.find(EAssetType.VEHICLE);
                     foreach (VehicleAsset asset in vAssets)
                     {
-                        ushort.TryParse(message.Substring(2).Replace(" ", "").ToLower(), out vehicleid);
-                        if (asset.vehicleName.ToLower().Contains(message.Substring(2).Replace(" ", "").ToLower()))
+                        if (asset.vehicleName.ToLower().Contains(splitstring[1]))
                         {
                             vehiclename = asset.vehicleName;
                             break;
