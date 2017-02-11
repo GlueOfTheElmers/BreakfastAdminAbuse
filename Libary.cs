@@ -16,10 +16,6 @@ namespace DefCon42
     {
         public static string HTMLRequest(string url)
         {
-            ServicePointManager
-           .ServerCertificateValidationCallback +=
-           (sender, cert, chain, sslPolicyErrors) => true;
-
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AutomaticDecompression = DecompressionMethods.GZip;
             request.Accept = "text/html";
@@ -41,7 +37,7 @@ namespace DefCon42
         }
         public static void UnturnedHTMLRequest(UnturnedPlayer player, string url, string desc)
         {
-            player.Player.channel.send("askBrowserRequest", player.CSteamID, SDG.Unturned.ESteamPacket.UPDATE_RELIABLE_BUFFER, desc, url);
+            player.Player.channel.send("askBrowserRequest", player.CSteamID, ESteamPacket.UPDATE_RELIABLE_BUFFER, desc, url);
         }
 
         public static string getBetween(string strSource, string strStart, string strEnd)
